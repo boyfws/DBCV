@@ -7,7 +7,10 @@ from src.norms import euclidean_squared
 from src.exceptions import *
 
 
-def DBCV(X, labels, noise_id=-1, norm="euclidean_squared"):
+def DBCV(X,
+         labels,
+         noise_id=-1,
+         norm="euclidean_squared"):
     """Computes DBCV
 
     This function does not compute or store the distance matrix in memory
@@ -17,15 +20,11 @@ def DBCV(X, labels, noise_id=-1, norm="euclidean_squared"):
     Parameters
     ----------
     X :
-        nd.array float32 or float64 if strict == True
-        or
-        nd.array convertible to float if strict == False
+        nd.array convertible to float
         shape (N, D)
         Sample embeddings
 
     labels:
-        nd.array int32 if strict == True
-        or
         nd.array convertible to int if strict == False
         shape (N,)
         Cluster IDs assigned for each sample in X
@@ -36,6 +35,9 @@ def DBCV(X, labels, noise_id=-1, norm="euclidean_squared"):
         iterable of int-s
         id or id-s of noise clusters
 
+    norm: default = "euclidean_squared"
+        str
+        One of available norms (will be added soon)
     """
     if not isinstance(X, np.ndarray) or not isinstance(labels, np.ndarray):
         raise WrongInputDataError("Input data must be in np.ndarray format")
