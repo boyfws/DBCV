@@ -1,26 +1,13 @@
-from dbcv import dbcv
+from src.dbcv import dbcv
+
 import numpy as np
 
-from norms import euclidean_squared
+from src.norms import euclidean_squared
+
+from src.exceptions import *
 
 
-class NumberOfClustersError(Exception):
-    pass
-
-
-class WrongDataTypeError(Exception):
-    pass
-
-
-class WrongInputDataError(Exception):
-    pass
-
-
-class WrongNormError(Exception):
-    pass
-
-
-def DBCV(X, labels, noise_id=-1, norm = "euclidean_squared"):
+def DBCV(X, labels, noise_id=-1, norm="euclidean_squared"):
     """Computes DBCV
 
     This function does not compute or store the distance matrix in memory
@@ -58,7 +45,7 @@ def DBCV(X, labels, noise_id=-1, norm = "euclidean_squared"):
 
     if X.ndim != 2 or labels.ndim != 1:
         raise WrongInputDataError(
-            f"X and labels must have 2 and 1 numbers of dimensions respectively\nbut were received {X.ndim} and {labels.ndim}")
+            f"X and labels must have 2 and 1 numbers of dimensions respectively but were received {X.ndim} and {labels.ndim}")
 
     if not hasattr(noise_id, '__iter__') and not isinstance(noise_id, int):
         raise WrongInputDataError("noise_id must be int or iterable")
@@ -75,9 +62,6 @@ def DBCV(X, labels, noise_id=-1, norm = "euclidean_squared"):
         return 0
 
     mask_for_labels_and_X = np.isin(labels, un_labels[mask_for_un_labels])
-
-    if X.ndim == 1:
-        X = X.reshape(-1, 1)
 
     match norm:
         case "euclidean_squared":

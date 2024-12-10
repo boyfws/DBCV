@@ -1,13 +1,13 @@
-from .utils import (calculate_core_dist,
-                   prepare_data,
-                   find_min_dspcs)
+from src.dbcv.utils import (calculate_core_dist,
+                            prepare_data,
+                            find_min_dspcs)
 
 import numpy as np
 
-from numba.typed import List
-from numba import float64, njit, int32
+from numba.typed import Dict
+from numba import float64, njit, int32, int64
 
-from ..norms import norm_type
+from ..config import norm_type
 
 
 @njit(float64(
@@ -21,13 +21,16 @@ def dbcv(X, labels, unique_el, counts_for_uniq, norm):
     dsbcs = np.zeros(shape=unique_el.size,
                      dtype=np.float64)
 
-    internal_obj = List([
-        np.array([-1], dtype=np.int64) for _ in range(unique_el.size)
-    ])
+    internal_obj = Dict.empty(
+        key_type=int32,
+        value_type=int64[:],
+    )
 
-    internal_core_dist = List([
-        np.array([-1.0], dtype=np.float64) for _ in range(unique_el.size)
-    ])
+    internal_core_dist = Dict.empty(
+        key_type=int32,
+        value_type=float64[:],
+    )
+
 
     min_dspcs = np.full(shape=unique_el.size,
                         fill_value=np.inf,
@@ -49,7 +52,8 @@ def dbcv(X, labels, unique_el, counts_for_uniq, norm):
                 X[internal_obj[i]],
                 X[internal_obj[j]],
                 internal_core_dist[i],
-                internal_core_dist[j]
+                internal_core_dist[j],
+                norm
             )
 
             min_dspcs[j] = np.minimum(min_dspcs[j], dspc_ij)

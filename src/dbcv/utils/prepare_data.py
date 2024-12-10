@@ -1,6 +1,6 @@
 from .find_internal_nodes import find_internal_nodes
 from .find_dsbcs import find_dsbcs
-from src.norms import norm_type
+from ...config import norm_type
 
 import numba as nb
 

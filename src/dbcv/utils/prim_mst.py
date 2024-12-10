@@ -11,7 +11,7 @@ from numpy import flatnonzero, maximum, arange
 import numba as nb
 import heapq
 
-from src.norms import norm_type
+from ...config import norm_type
 
 
 @nb.njit(nb.types.Tuple((

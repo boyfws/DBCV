@@ -1,7 +1,7 @@
 import numba as nb
 import numpy as np
 
-from .type_for_norm import signature_for_norms
+from ..config import signature_for_norms
 
 
 @nb.njit(signature_for_norms, cache=True)

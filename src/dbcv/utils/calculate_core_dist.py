@@ -1,4 +1,4 @@
-from src.norms import norm_type
+from ...config import norm_type
 
 import numba as nb
 
@@ -9,7 +9,7 @@ from numpy import float64, inf
 from numpy import zeros
 
 # Other staff
-from numpy import power, sum
+from numpy import sum
 
 
 @nb.njit(nb.float64[:](nb.float64[:, :], norm_type),
