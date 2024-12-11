@@ -1,0 +1,19 @@
+services:
+  speed_test:
+    build:
+      context: ..
+      dockerfile: tests/speed_test/Dockerfile
+
+    volumes:
+      - ../src:/app/src
+      - ../DBCV.py:/app/DBCV.py
+      - ./speed_test/speed_test.py:/app/speed_test.py
+
+    mem_limit: 3g  # Ограничение памяти: 512 МБ
+    cpuset: '0,1,2,3'   # Работаем на 4 ядрах
+
+    ports:
+      - "8888:8888"
+    command: sleep infinity
+
+
