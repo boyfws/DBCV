@@ -18,7 +18,7 @@ from ..config import norm_type
     norm_type),
     cache=True)
 def dbcv(X, labels, unique_el, counts_for_uniq, norm):
-    dsbcs = np.zeros(shape=unique_el.size,
+    dsbcs = np.zeros(shape=unique_el.shape[0],
                      dtype=np.float64)
 
     internal_obj = Dict.empty(
@@ -31,12 +31,11 @@ def dbcv(X, labels, unique_el, counts_for_uniq, norm):
         value_type=float64[:],
     )
 
-
-    min_dspcs = np.full(shape=unique_el.size,
+    min_dspcs = np.full(shape=unique_el.shape[0],
                         fill_value=np.inf,
                         dtype=np.float64)
 
-    for i in range(unique_el.size):
+    for i in range(unique_el.shape[0]):
         index = np.flatnonzero(labels == unique_el[i]).astype(np.int64)
 
         core_dists = calculate_core_dist(X[index], norm)
@@ -46,8 +45,8 @@ def dbcv(X, labels, unique_el, counts_for_uniq, norm):
                                                                         index,
                                                                         norm)
 
-    for i in range(unique_el.size):
-        for j in range(i + 1, unique_el.size):
+    for i in range(unique_el.shape[0]):
+        for j in range(i + 1, unique_el.shape[0]):
             dspc_ij = find_min_dspcs(
                 X[internal_obj[i]],
                 X[internal_obj[j]],

@@ -1,8 +1,10 @@
-from .find_internal_nodes import find_internal_nodes
-from .find_dsbcs import find_dsbcs
+from .prim_mst import prim_mst
 from ...config import norm_type
 
 import numba as nb
+
+from numpy import bincount, hstack, array, max, float64
+
 
 
 @nb.njit(nb.types.Tuple((
@@ -12,8 +14,18 @@ import numba as nb
                         nb.float64[:],
                         nb.int64[:],
                         norm_type),
-        cache=True)
+        cache=True,
+        parallel=True)
 def prepare_data(X_cluster, core_dists, index, norm):
-    row, col, weights, columns = find_internal_nodes(X_cluster, core_dists, norm)
-    dsbcs = find_dsbcs(columns, core_dists, row, col, weights)
-    return dsbcs, index[columns], core_dists[columns]
+    row, col, weights = prim_mst(X_cluster, core_dists, norm)
+
+    bit_mask = bincount(hstack((row, col))) > 1
+
+    dsbcs = max(
+        array(
+            [
+                weights[j] for j in nb.prange(row.shape[0]) if bit_mask[row[j]] * bit_mask[col[j]]
+            ],
+            dtype=float64)
+    )
+    return dsbcs, index[bit_mask], core_dists[bit_mask]

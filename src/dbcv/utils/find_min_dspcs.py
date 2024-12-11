@@ -19,7 +19,7 @@ from numpy import full, min, maximum
     parallel=True
     )
 def find_min_dspcs(X_cluster_i, X_cluster_j, core_dists_i, core_dists_j, norm):
-    if X_cluster_i.size == 0 or X_cluster_j.size == 0:
+    if X_cluster_i.shape[0] == 0 or X_cluster_j.shape[0] == 0:
         return inf
 
     min_values = full(X_cluster_i.shape[0], inf, dtype=float64)
