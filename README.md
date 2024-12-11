@@ -1,5 +1,10 @@
 # Function for calculating Density-Based Clustering Validation metric  
 This function is optimized with numba and multithreading (Not python library) and does not store the distance matrix in memory but computes it inplace using lazy computation approach
+
+Related research:
+   **"Density-Based Clustering Validation". Davoud Moulavi, Pablo A. Jaskowiak,
+   Ricardo J. G. B. Campello, Arthur Zimek, Jörg Sander.
+   https://www.dbs.ifi.lmu.de/~zimek/publications/SDM2014/DBCV.pdf**
 ## A little bit about implementation
 1) We use Prim's algorithm to find mst
 2) 
