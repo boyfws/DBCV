@@ -44,6 +44,9 @@ def prim_mst(observations, core_dist, norm):
         distances = maximum(distances, core_dist[not_in_tree])
         distances = maximum(distances, core_dist[u])
 
+        # Нужно для совместимости с функцией из scipy
+        distances[distances < 1e-8] = 0.0
+
         mask = distances < min_weight[not_in_tree]
         min_weight[not_in_tree[mask]] = distances[mask]
         previous[not_in_tree[mask]] = u

@@ -59,6 +59,7 @@ def dbcv(X, labels, unique_el, counts_for_uniq, norm):
             min_dspcs[j] = np.minimum(min_dspcs[j], dspc_ij)
             min_dspcs[i] = np.minimum(min_dspcs[i], dspc_ij)
 
+
     np.nan_to_num(min_dspcs, copy=False)
     vcs = (min_dspcs - dsbcs) / (1e-12 + np.maximum(min_dspcs, dsbcs))
     np.nan_to_num(vcs, copy=False, nan=0.0)

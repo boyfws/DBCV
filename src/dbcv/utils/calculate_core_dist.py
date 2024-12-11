@@ -25,5 +25,6 @@ def calculate_core_dist(X_cluster, norm):
         dist[j] = inf
         dist = dist ** -(d + 0.0)
         core_dists[j] = sum(dist) / (n - 1)
+        core_dists[j] = core_dists[j] ** (-1 / d)
 
-    return core_dists ** (-1 / d)
+    return core_dists
