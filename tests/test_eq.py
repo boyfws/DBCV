@@ -7,6 +7,9 @@ https://github.com/FelSiq/DBCV
 """
 from pathlib import Path
 import sys
+import pandas as pd
+
+import pytest
 
 DBCV_path = Path().cwd().parent
 
@@ -17,12 +20,15 @@ import sklearn.datasets
 import numpy as np
 
 
+threshold = 0.07
+
+
 def test_first_sample():
     X, y = sklearn.datasets.make_moons(n_samples=300, noise=0.05, random_state=1782)
 
     score = DBCV(X, y)
     expected = 0.8545358723390613
-    assert expected * 0.93 <= score <= expected * 1.07
+    assert expected * (1 - threshold) <= score <= expected * (1 + threshold)
 
 
 def test_second_sample():
@@ -38,4 +44,22 @@ def test_second_sample():
 
     score = DBCV(X, y, noise_id=noise_id)
     expected = 0.7545431212217051
-    assert expected * 0.93 <= score <= expected * 1.07
+    assert  expected * (1 - threshold) <= score <= expected * (1 + threshold)
+
+
+# Сравниваем с MATLAB реализацией, так как именно она использует алгоритм Прима
+@pytest.mark.parametrize('number, expected', [
+    (1, 0.8576),
+    (2, 0.8103),
+    (3, 0.6319),
+    (4, 0.8688)
+])
+def test_matlab_datasets(number, expected):
+    df = pd.read_csv(f"matlab_datasets/dataset_{number}.txt", header=None, sep=" ")
+
+    df_np = df.to_numpy()
+
+    X = df_np[:, :2]
+    y = df_np[:, 2]
+    score = DBCV(X, y)
+    assert  expected * (1 - threshold) <= score <= expected * (1 + threshold)
