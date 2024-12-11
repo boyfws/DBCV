@@ -1,5 +1,5 @@
 from .prim_mst import prim_mst
-from ...config import norm_type
+from src.config import norm_type
 
 import numba as nb
 

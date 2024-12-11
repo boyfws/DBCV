@@ -1,4 +1,4 @@
-from ...config import norm_type
+from src.config import norm_type
 import numba as nb
 
 # Dtypes

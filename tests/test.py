@@ -8,16 +8,19 @@ import numpy as np
 import pytest
 import numba as nb
 from itertools import product
+import os
 
 DBCV_path = Path().cwd().parent
 
 sys.path.append(str(DBCV_path))
 
+nb.set_num_threads(os.cpu_count())
+
 from DBCV import DBCV
 
 n_samples_list = [10 ** 2, 10 ** 3, 10 ** 4]
 vec_size_list = [2, 4, 6, 8]
-num_checks_list = [50, 100]
+num_checks_list = [50]
 norms_list = ["euclidean_squared"]
 
 

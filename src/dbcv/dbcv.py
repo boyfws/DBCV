@@ -7,7 +7,7 @@ import numpy as np
 from numba.typed import Dict
 from numba import float64, njit, int32, int64
 
-from ..config import norm_type
+from src.config import norm_type
 
 
 @njit(float64(
