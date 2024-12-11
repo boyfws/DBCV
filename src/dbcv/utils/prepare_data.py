@@ -21,8 +21,6 @@ def prepare_data(X_cluster, core_dists, index, norm):
 
     bit_mask = bincount(hstack((row, col))) > 1
 
-    assert row.shape[0] == col.shape[0] == bit_mask.shape[0], "Unreachable condition reached - please report an Issue"
-
     dsbcs = max(
         array(
             [
