@@ -47,7 +47,8 @@ def DBCV(X,
 
     if X.ndim != 2 or labels.ndim != 1:
         raise WrongInputDataError(
-            f"X and labels must have 2 and 1 numbers of dimensions respectively but were received {X.ndim} and {labels.ndim}")
+            f"X and labels must have 2 and 1 numbers of dimensions respectively but were received {X.ndim} and {labels.ndim}"
+        )
 
     if not hasattr(noise_id, '__iter__') and not isinstance(noise_id, int):
         raise WrongInputDataError("noise_id must be int or iterable")

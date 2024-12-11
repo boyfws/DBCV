@@ -1,4 +1,4 @@
-from ...config import norm_type
+from src.config import norm_type
 
 import numba as nb
 
@@ -18,7 +18,7 @@ from numpy import sum
          )
 def calculate_core_dist(X_cluster, norm):
     d = X_cluster.shape[1]
-    n = X_cluster.size
+    n = X_cluster.shape[0]
     core_dists = zeros(n, dtype=float64)
     for j in nb.prange(n):
         dist = norm(X_cluster, X_cluster[j])
